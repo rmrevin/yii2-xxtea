@@ -1,0 +1,30 @@
+{
+	"name": "rmrevin/yii2-xxtea",
+	"description": "",
+	"keywords": ["yii2", "xxtea", "encrypt"],
+	"type": "library",
+	"license": "BSD-3-Clause",
+	"support": {
+		"issues": "https://github.com/rmrevin/yii2-xxtea/issues?state=open",
+		"wiki": "https://github.com/rmrevin/yii2-xxtea/wiki",
+		"source": "https://github.com/rmrevin/yii2-xxtea"
+	},
+	"authors": [
+		{
+			"name": "Revin Roman",
+			"email": "xgismox@gmail.com",
+			"homepage": "http://rmrevin.ru/",
+			"role": "Founder and project lead"
+		}
+	],
+	"minimum-stability": "dev",
+	"require": {
+		"php": ">=5.4.0",
+		"yiisoft/yii2": "*"
+	},
+	"autoload": {
+		"psr-0": {
+			"yii\\postman": "/"
+		}
+	}
+}
