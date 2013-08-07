@@ -1,6 +1,6 @@
 {
 	"name": "rmrevin/yii2-xxtea",
-	"description": "",
+	"description": "Extension for yii2 encryption algorithm XXTEA",
 	"keywords": ["yii2", "xxtea", "encrypt"],
 	"type": "library",
 	"license": "BSD-3-Clause",

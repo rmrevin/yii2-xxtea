@@ -6,7 +6,7 @@ Installation
 In `composer.json`:
 ```
 {
-    "require-dev": {
+    "require": {
         "rmrevin/yii2-xxtea": "1.0.*"
     }
 }
