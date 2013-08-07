@@ -16,7 +16,7 @@ class XXTEA extends Component
 {
 
 	/** @var string unique secret key encryption. */
-	public $key;
+	public $key = null;
 
 	/** @var bool receive whether to encode the hash algorithm "base64" (for data transfer). */
 	public $base64_encode = false;
@@ -31,9 +31,23 @@ class XXTEA extends Component
 	{
 		parent::init();
 
+		if (!class_exists('yii\xxtea\Crypt_XXTEA')) {
+			require(__DIR__ . '/Crypt_XXTEA.php');
+		}
+
+		if (empty($this->key)) {
+			throw new XXTEAException('Secret key is undefined.');
+		}
+
 		$this->_crypt = new Crypt_XXTEA();
-		$this->_crypt->setKey($this->key);
+		$this->crypt()->setKey($this->key);
 	}
+
+	/**
+	 * Method returns Crypt_XXTEA object
+	 * @return Crypt_XXTEA
+	 */
+	public function crypt() { return $this->_crypt; }
 
 	/**
 	 * @param string $string data encryption
@@ -41,7 +55,7 @@ class XXTEA extends Component
 	 */
 	public function encrypt($string)
 	{
-		$hash = $this->_crypt->encrypt($string);
+		$hash = $this->crypt()->encrypt($string);
 
 		return (bool)$this->base64_encode === true ? base64_encode($hash) : $hash;
 	}
@@ -52,10 +66,10 @@ class XXTEA extends Component
 	 */
 	public function decrypt($hash)
 	{
-		if ((bool)$this->base64_encode === true) {
+		if ((bool)$this->base64_encode === true && is_string($hash)) {
 			$hash = base64_decode($hash);
 		}
 
-		return $this->_crypt->decrypt($hash);
+		return $this->crypt()->decrypt($hash);
 	}
 }

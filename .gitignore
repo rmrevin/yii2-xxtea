@@ -1,5 +1,9 @@
-/.idea
-/composer.lock
-/composer.phar
-/phpunit.phar
-/vendor
+#phpstorm
+.idea/
+
+#composer
+vendor/
+composer.lock
+
+#phpunit
+coverage/

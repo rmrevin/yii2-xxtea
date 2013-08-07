@@ -34,7 +34,7 @@
 
 namespace yii\xxtea;
 
-define('CRYPT_XXTEA_DELTA', 0x9E3779B9);
+defined('CRYPT_XXTEA_DELTA') or define('CRYPT_XXTEA_DELTA', 0x9E3779B9);
 
 /**
  * The main class
@@ -66,17 +66,18 @@ class Crypt_XXTEA
 	 * @access public
 	 * @param string $key  the secret key
 	 * @return bool  true on success, PEAR_Error on failure
+	 * @throws XXTEAException
 	 */
 	function setKey($key)
 	{
 		if (!is_string($key)) {
-			return PEAR::raiseError('The secret key must be a string.');
+			throw new XXTEAException('The secret key must be a string.');
 		}
 		$k = $this->_str2long($key, false);
 		if (count($k) > 4) {
-			return PEAR::raiseError('The secret key cannot be more than 16 characters.');
+			throw new XXTEAException('The secret key cannot be more than 16 characters.');
 		} elseif (count($k) == 0) {
-			return PEAR::raiseError('The secret key cannot be empty.');
+			throw new XXTEAException('The secret key cannot be empty.');
 		} elseif (count($k) < 4) {
 			for ($i = count($k); $i < 4; $i++) {
 				$k[$i] = 0;
@@ -111,14 +112,12 @@ class Crypt_XXTEA
 	 * @access public
 	 * @param string $str  the plain text
 	 * @return string  the cipher text on success, PEAR_Error on failure
+	 * @throws XXTEAException
 	 */
 	function encrypt($str)
 	{
 		if (!is_string($str)) {
-			return PEAR::raiseError('The plain text must be a string.');
-		}
-		if ($this->_key == null) {
-			return PEAR::raiseError('Secret key is undefined.');
+			throw new XXTEAException('The plain text must be a string.');
 		}
 		if ($str == '') {
 			return '';
@@ -191,14 +190,12 @@ class Crypt_XXTEA
 	 * @access public
 	 * @param string $str  the cipher text
 	 * @return string  the plain text on success, PEAR_Error on failure
+	 * @throws XXTEAException
 	 */
 	function decrypt($str)
 	{
 		if (!is_string($str)) {
-			return PEAR::raiseError('The cipher text must be a string.');
-		}
-		if ($this->_key == null) {
-			return PEAR::raiseError('Secret key is undefined.');
+			throw new XXTEAException('The cipher text must be a string.');
 		}
 		if ($str == '') {
 			return '';
@@ -223,16 +220,5 @@ class Crypt_XXTEA
 		}
 
 		return $this->_long2str($v, true);
-	}
-}
-
-if (!class_exists('PEAR')) {
-	class PEAR
-	{
-
-		public static function raiseError($message)
-		{
-			throw new XXTEAException($message);
-		}
 	}
 }
