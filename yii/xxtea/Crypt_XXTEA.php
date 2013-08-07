@@ -2,8 +2,8 @@
 /**
  * PHP implementation of XXTEA encryption algorithm.
  *
- * XXTEA is a secure and fast encryption algorithm, suitable for web
- * development.
+ * XXTEA is a secure and fast encryption algorithm. It's suitable for
+ * web development.
  *
  * PHP versions 4 and 5
  *
@@ -24,11 +24,11 @@
  *
  * @category   Encryption
  * @package    Crypt_XXTEA
- * @author     Wudi Liu <wudicgi@gmail.com>
  * @author     Ma Bingyao <andot@ujn.edu.cn>
- * @copyright  2005-2008 Coolcode.CN
+ * @author     Wudi Liu <wudicgi@yahoo.de>
+ * @copyright  2005-2006 Coolcode.CN
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id: XXTEA.php,v 1.3 2008/03/06 11:38:45 wudicgi Exp $
+ * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Crypt_XXTEA
  */
 
@@ -41,18 +41,18 @@ define('CRYPT_XXTEA_DELTA', 0x9E3779B9);
  *
  * @category   Encryption
  * @package    Crypt_XXTEA
- * @author     Wudi Liu <wudicgi@gmail.com>
  * @author     Ma Bingyao <andot@ujn.edu.cn>
- * @copyright  2005-2008 Coolcode.CN
+ * @author     Wudi Liu <wudicgi@yahoo.de>
+ * @copyright  2005-2006 Coolcode.CN
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    Release: 0.9.0
+ * @version    Release: @package_version@
  * @link       http://pear.php.net/package/Crypt_XXTEA
  */
 class Crypt_XXTEA
 {
 
 	/**
-	 * The long integer array of secret key
+	 * The long array of secret key
 	 *
 	 * @access private
 	 * @var array
@@ -61,23 +61,20 @@ class Crypt_XXTEA
 
 	/**
 	 * Sets the secret key
-	 * The key must be non-empty, and not more than 16 characters or 4 long values
+	 * The key must be non-empty, and less than or equal to 16 characters
 	 *
 	 * @access public
-	 * @param mixed $key  the secret key (string or long integer array)
+	 * @param string $key  the secret key
 	 * @return bool  true on success, PEAR_Error on failure
 	 */
-	public function setKey($key)
+	function setKey($key)
 	{
-		if (is_string($key)) {
-			$k = $this->_str2long($key, false);
-		} elseif (is_array($key)) {
-			$k = $key;
-		} else {
-			return PEAR::raiseError('The secret key must be a string or long integer array.');
+		if (!is_string($key)) {
+			return PEAR::raiseError('The secret key must be a string.');
 		}
+		$k = $this->_str2long($key, false);
 		if (count($k) > 4) {
-			return PEAR::raiseError('The secret key cannot be more than 16 characters or 4 long values.');
+			return PEAR::raiseError('The secret key cannot be more than 16 characters.');
 		} elseif (count($k) == 0) {
 			return PEAR::raiseError('The secret key cannot be empty.');
 		} elseif (count($k) < 4) {
@@ -91,14 +88,14 @@ class Crypt_XXTEA
 	}
 
 	/**
-	 * Converts string to long integer array
+	 * Converts string to long array
 	 *
 	 * @access private
 	 * @param string $s  the string
-	 * @param bool $w  whether to append the length of string to array
-	 * @return string  the long integer array
+	 * @param bool $w  whether to append the length of string
+	 * @return string  the long array
 	 */
-	private function _str2long($s, $w)
+	function _str2long($s, $w)
 	{
 		$v = array_values(unpack('V*', $s . str_repeat("\0", (4 - strlen($s) % 4) & 3)));
 		if ($w) {
@@ -111,63 +108,22 @@ class Crypt_XXTEA
 	/**
 	 * Encrypts a plain text
 	 *
-	 * As the XXTEA encryption algorithm is designed for encrypting and decrypting
-	 * the long integer array type of data, there is not a standard that defines
-	 * how to convert between long integer array and text or binary data for it.
-	 * So this package provides the ability to encrypt and decrypt the long integer
-	 * arrays directly to satisfy the requirement for working with other
-	 * implementations. And at the same time, for convenience, it also provides
-	 * the ability to process strings, which uses its own method to group the text
-	 * into array.
-	 *
 	 * @access public
-	 * @param mixed $plaintext  the plain text (string or long integer array)
-	 * @return mixed  the cipher text as the same type as the parameter $plaintext
-	 *                on success, PEAR_Error on failure
+	 * @param string $str  the plain text
+	 * @return string  the cipher text on success, PEAR_Error on failure
 	 */
-	public function encrypt($plaintext)
+	function encrypt($str)
 	{
+		if (!is_string($str)) {
+			return PEAR::raiseError('The plain text must be a string.');
+		}
 		if ($this->_key == null) {
 			return PEAR::raiseError('Secret key is undefined.');
 		}
-		if (is_string($plaintext)) {
-			return $this->_encryptString($plaintext);
-		} elseif (is_array($plaintext)) {
-			return $this->_encryptArray($plaintext);
-		} else {
-			return PEAR::raiseError('The plain text must be a string or long integer array.');
-		}
-	}
-
-	/**
-	 * Encrypts a string
-	 *
-	 * @access private
-	 * @param string $str  the string to encrypt
-	 * @return string  the string type of the cipher text on success,
-	 *                 PEAR_Error on failure
-	 */
-	private function _encryptString($str)
-	{
 		if ($str == '') {
 			return '';
 		}
 		$v = $this->_str2long($str, true);
-		$v = $this->_encryptArray($v);
-
-		return $this->_long2str($v, false);
-	}
-
-	/**
-	 * Encrypts a long integer array
-	 *
-	 * @access private
-	 * @param array $v  the long integer array to encrypt
-	 * @return array  the array type of the cipher text on success,
-	 *                PEAR_Error on failure
-	 */
-	private function _encryptArray($v)
-	{
 		$n = count($v) - 1;
 		$z = $v[$n];
 		$y = $v[0];
@@ -186,20 +142,17 @@ class Crypt_XXTEA
 			$z = $v[$n] = $this->_int32($v[$n] + $mx);
 		}
 
-		return $v;
+		return $this->_long2str($v, false);
 	}
 
 	/**
-	 * Corrects long integer value
-	 *
-	 * Because a number beyond the bounds of the integer type will be automatically
-	 * interpreted as a float, the simulation of integer overflow is needed.
+	 * Fixes overflow problem
 	 *
 	 * @access private
 	 * @param int $n  the integer
 	 * @return int  the correct integer
 	 */
-	private function _int32($n)
+	function _int32($n)
 	{
 		while ($n >= 2147483648)
 			$n -= 4294967296;
@@ -210,15 +163,15 @@ class Crypt_XXTEA
 	}
 
 	/**
-	 * Converts long integer array to string
+	 * Converts long array to string
 	 *
 	 * @access private
-	 * @param array $v  the long integer array
-	 * @param bool $w  whether the given array contains the length of
+	 * @param array $v  the long array
+	 * @param bool $w  whether the long array contains the length of
 	 *                  original plain text
 	 * @return string  the string
 	 */
-	private function _long2str($v, $w)
+	function _long2str($v, $w)
 	{
 		$len = count($v);
 		$s = '';
@@ -236,53 +189,21 @@ class Crypt_XXTEA
 	 * Decrypts a cipher text
 	 *
 	 * @access public
-	 * @param mixed $chipertext  the cipher text (string or long integer array)
-	 * @return mixed  the plain text as the same type as the parameter $chipertext
-	 *                on success, PEAR_Error on failure
+	 * @param string $str  the cipher text
+	 * @return string  the plain text on success, PEAR_Error on failure
 	 */
-	public function decrypt($chipertext)
+	function decrypt($str)
 	{
+		if (!is_string($str)) {
+			return PEAR::raiseError('The cipher text must be a string.');
+		}
 		if ($this->_key == null) {
 			return PEAR::raiseError('Secret key is undefined.');
 		}
-		if (is_string($chipertext)) {
-			return $this->_decryptString($chipertext);
-		} elseif (is_array($chipertext)) {
-			return $this->_decryptArray($chipertext);
-		} else {
-			return PEAR::raiseError('The chiper text must be a string or long integer array.');
-		}
-	}
-
-	/**
-	 * Decrypts a string
-	 *
-	 * @access private
-	 * @param string $str  the string to decrypt
-	 * @return string  the string type of the plain text on success,
-	 *                 PEAR_Error on failure
-	 */
-	private function _decryptString($str)
-	{
 		if ($str == '') {
 			return '';
 		}
 		$v = $this->_str2long($str, false);
-		$v = $this->_decryptArray($v);
-
-		return $this->_long2str($v, true);
-	}
-
-	/**
-	 * Decrypts a long integer array
-	 *
-	 * @access private
-	 * @param array $v  the long integer array to decrypt
-	 * @return array  the array type of the plain text on success,
-	 *                PEAR_Error on failure
-	 */
-	private function _decryptArray($v)
-	{
 		$n = count($v) - 1;
 		$z = $v[$n];
 		$y = $v[0];
@@ -301,7 +222,7 @@ class Crypt_XXTEA
 			$sum = $this->_int32($sum - CRYPT_XXTEA_DELTA);
 		}
 
-		return $v;
+		return $this->_long2str($v, true);
 	}
 }
 
