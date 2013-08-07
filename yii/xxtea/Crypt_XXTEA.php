@@ -34,11 +34,7 @@
 
 namespace yii\xxtea;
 
-// {{{ constants
-
 define('CRYPT_XXTEA_DELTA', 0x9E3779B9);
-
-// }}}
 
 /**
  * The main class
@@ -55,33 +51,23 @@ define('CRYPT_XXTEA_DELTA', 0x9E3779B9);
 class Crypt_XXTEA
 {
 
-	// {{{ properties
-
 	/**
 	 * The long integer array of secret key
 	 *
 	 * @access private
-	 *
 	 * @var array
 	 */
-	var $_key;
-
-	// }}}
-
-	// {{{ setKey()
+	private $_key;
 
 	/**
 	 * Sets the secret key
-	 *
 	 * The key must be non-empty, and not more than 16 characters or 4 long values
 	 *
 	 * @access public
-	 *
 	 * @param mixed $key  the secret key (string or long integer array)
-	 *
 	 * @return bool  true on success, PEAR_Error on failure
 	 */
-	function setKey($key)
+	public function setKey($key)
 	{
 		if (is_string($key)) {
 			$k = $this->_str2long($key, false);
@@ -104,21 +90,15 @@ class Crypt_XXTEA
 		return true;
 	}
 
-	// }}}
-
-	// {{{ encrypt()
-
 	/**
 	 * Converts string to long integer array
 	 *
 	 * @access private
-	 *
 	 * @param string $s  the string
 	 * @param bool $w  whether to append the length of string to array
-	 *
 	 * @return string  the long integer array
 	 */
-	function _str2long($s, $w)
+	private function _str2long($s, $w)
 	{
 		$v = array_values(unpack('V*', $s . str_repeat("\0", (4 - strlen($s) % 4) & 3)));
 		if ($w) {
@@ -127,10 +107,6 @@ class Crypt_XXTEA
 
 		return $v;
 	}
-
-	// }}}
-
-	// {{{ decrypt()
 
 	/**
 	 * Encrypts a plain text
@@ -145,13 +121,11 @@ class Crypt_XXTEA
 	 * into array.
 	 *
 	 * @access public
-	 *
 	 * @param mixed $plaintext  the plain text (string or long integer array)
-	 *
 	 * @return mixed  the cipher text as the same type as the parameter $plaintext
 	 *                on success, PEAR_Error on failure
 	 */
-	function encrypt($plaintext)
+	public function encrypt($plaintext)
 	{
 		if ($this->_key == null) {
 			return PEAR::raiseError('Secret key is undefined.');
@@ -165,21 +139,15 @@ class Crypt_XXTEA
 		}
 	}
 
-	// }}}
-
-	// {{{ _encryptString()
-
 	/**
 	 * Encrypts a string
 	 *
 	 * @access private
-	 *
 	 * @param string $str  the string to encrypt
-	 *
 	 * @return string  the string type of the cipher text on success,
 	 *                 PEAR_Error on failure
 	 */
-	function _encryptString($str)
+	private function _encryptString($str)
 	{
 		if ($str == '') {
 			return '';
@@ -190,21 +158,15 @@ class Crypt_XXTEA
 		return $this->_long2str($v, false);
 	}
 
-	// }}}
-
-	// {{{ _encryptArray()
-
 	/**
 	 * Encrypts a long integer array
 	 *
 	 * @access private
-	 *
 	 * @param array $v  the long integer array to encrypt
-	 *
 	 * @return array  the array type of the cipher text on success,
 	 *                PEAR_Error on failure
 	 */
-	function _encryptArray($v)
+	private function _encryptArray($v)
 	{
 		$n = count($v) - 1;
 		$z = $v[$n];
@@ -227,10 +189,6 @@ class Crypt_XXTEA
 		return $v;
 	}
 
-	// }}}
-
-	// {{{ _decryptString()
-
 	/**
 	 * Corrects long integer value
 	 *
@@ -238,12 +196,10 @@ class Crypt_XXTEA
 	 * interpreted as a float, the simulation of integer overflow is needed.
 	 *
 	 * @access private
-	 *
 	 * @param int $n  the integer
-	 *
 	 * @return int  the correct integer
 	 */
-	function _int32($n)
+	private function _int32($n)
 	{
 		while ($n >= 2147483648)
 			$n -= 4294967296;
@@ -253,22 +209,16 @@ class Crypt_XXTEA
 		return (int)$n;
 	}
 
-	// }}}
-
-	// {{{ _encryptArray()
-
 	/**
 	 * Converts long integer array to string
 	 *
 	 * @access private
-	 *
 	 * @param array $v  the long integer array
 	 * @param bool $w  whether the given array contains the length of
 	 *                  original plain text
-	 *
 	 * @return string  the string
 	 */
-	function _long2str($v, $w)
+	private function _long2str($v, $w)
 	{
 		$len = count($v);
 		$s = '';
@@ -282,21 +232,15 @@ class Crypt_XXTEA
 		}
 	}
 
-	// }}}
-
-	// {{{ _long2str()
-
 	/**
 	 * Decrypts a cipher text
 	 *
 	 * @access public
-	 *
 	 * @param mixed $chipertext  the cipher text (string or long integer array)
-	 *
 	 * @return mixed  the plain text as the same type as the parameter $chipertext
 	 *                on success, PEAR_Error on failure
 	 */
-	function decrypt($chipertext)
+	public function decrypt($chipertext)
 	{
 		if ($this->_key == null) {
 			return PEAR::raiseError('Secret key is undefined.');
@@ -310,21 +254,15 @@ class Crypt_XXTEA
 		}
 	}
 
-	// }}}
-
-	// {{{ _str2long()
-
 	/**
 	 * Decrypts a string
 	 *
 	 * @access private
-	 *
 	 * @param string $str  the string to decrypt
-	 *
 	 * @return string  the string type of the plain text on success,
 	 *                 PEAR_Error on failure
 	 */
-	function _decryptString($str)
+	private function _decryptString($str)
 	{
 		if ($str == '') {
 			return '';
@@ -335,21 +273,15 @@ class Crypt_XXTEA
 		return $this->_long2str($v, true);
 	}
 
-	// }}}
-
-	// {{{ _int32()
-
 	/**
 	 * Decrypts a long integer array
 	 *
 	 * @access private
-	 *
 	 * @param array $v  the long integer array to decrypt
-	 *
 	 * @return array  the array type of the plain text on success,
 	 *                PEAR_Error on failure
 	 */
-	function _decryptArray($v)
+	private function _decryptArray($v)
 	{
 		$n = count($v) - 1;
 		$z = $v[$n];
@@ -371,9 +303,6 @@ class Crypt_XXTEA
 
 		return $v;
 	}
-
-	// }}}
-
 }
 
 if (!class_exists('PEAR')) {
