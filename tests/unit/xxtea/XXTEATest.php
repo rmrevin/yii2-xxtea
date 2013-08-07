@@ -36,6 +36,23 @@ class XXTEATest extends TestCase
 		return \Yii::$app->getComponent('xxtea');
 	}
 
+	public function testTooShortKeyExceptions()
+	{
+		$this->XXTEA()->crypt()->setKey('a');
+		$key = $this->XXTEA()->crypt()->getKey();
+		$this->assertEquals(count($key), 4);
+		$this->assertNotEmpty($key[0]);
+		$this->assertEmpty($key[1]);
+		$this->assertEmpty($key[2]);
+		$this->assertEmpty($key[3]);
+	}
+
+	public function testTooLongKeyExceptions()
+	{
+		$this->setExpectedException('yii\xxtea\XXTEAException', 'The secret key cannot be more than 16 characters.');
+		$this->XXTEA()->crypt()->setKey(str_repeat('a', 17));
+	}
+
 	public function testNullKeyExceptions()
 	{
 		$this->setExpectedException('yii\xxtea\XXTEAException', 'The secret key must be a string.');

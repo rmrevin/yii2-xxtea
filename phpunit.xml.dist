@@ -13,6 +13,7 @@
             <directory suffix=".php">./tests</directory>
             <directory suffix=".php">./vendor</directory>
             <file suffix=".php">./yii/xxtea/example.php</file>
+            <file>./phpunit.phar</file>
         </blacklist>
     </filter>
     <testsuites>

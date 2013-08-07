@@ -60,53 +60,6 @@ class Crypt_XXTEA
 	private $_key;
 
 	/**
-	 * Sets the secret key
-	 * The key must be non-empty, and less than or equal to 16 characters
-	 *
-	 * @access public
-	 * @param string $key  the secret key
-	 * @return bool  true on success, PEAR_Error on failure
-	 * @throws XXTEAException
-	 */
-	function setKey($key)
-	{
-		if (!is_string($key)) {
-			throw new XXTEAException('The secret key must be a string.');
-		}
-		$k = $this->_str2long($key, false);
-		if (count($k) > 4) {
-			throw new XXTEAException('The secret key cannot be more than 16 characters.');
-		} elseif (count($k) == 0) {
-			throw new XXTEAException('The secret key cannot be empty.');
-		} elseif (count($k) < 4) {
-			for ($i = count($k); $i < 4; $i++) {
-				$k[$i] = 0;
-			}
-		}
-		$this->_key = $k;
-
-		return true;
-	}
-
-	/**
-	 * Converts string to long array
-	 *
-	 * @access private
-	 * @param string $s  the string
-	 * @param bool $w  whether to append the length of string
-	 * @return string  the long array
-	 */
-	function _str2long($s, $w)
-	{
-		$v = array_values(unpack('V*', $s . str_repeat("\0", (4 - strlen($s) % 4) & 3)));
-		if ($w) {
-			$v[] = strlen($s);
-		}
-
-		return $v;
-	}
-
-	/**
 	 * Encrypts a plain text
 	 *
 	 * @access public
@@ -220,5 +173,54 @@ class Crypt_XXTEA
 		}
 
 		return $this->_long2str($v, true);
+	}
+
+	public function getKey() { return $this->_key; }
+
+	/**
+	 * Sets the secret key
+	 * The key must be non-empty, and less than or equal to 16 characters
+	 *
+	 * @access public
+	 * @param string $key  the secret key
+	 * @return bool  true on success, PEAR_Error on failure
+	 * @throws XXTEAException
+	 */
+	function setKey($key)
+	{
+		if (!is_string($key)) {
+			throw new XXTEAException('The secret key must be a string.');
+		}
+		$k = $this->_str2long($key, false);
+		if (count($k) > 4) {
+			throw new XXTEAException('The secret key cannot be more than 16 characters.');
+		} elseif (count($k) == 0) {
+			throw new XXTEAException('The secret key cannot be empty.');
+		} elseif (count($k) < 4) {
+			for ($i = count($k); $i < 4; $i++) {
+				$k[$i] = 0;
+			}
+		}
+		$this->_key = $k;
+
+		return true;
+	}
+
+	/**
+	 * Converts string to long array
+	 *
+	 * @access private
+	 * @param string $s  the string
+	 * @param bool $w  whether to append the length of string
+	 * @return string  the long array
+	 */
+	function _str2long($s, $w)
+	{
+		$v = array_values(unpack('V*', $s . str_repeat("\0", (4 - strlen($s) % 4) & 3)));
+		if ($w) {
+			$v[] = strlen($s);
+		}
+
+		return $v;
 	}
 }
