@@ -32,8 +32,6 @@
  * @link       http://pear.php.net/package/Crypt_XXTEA
  */
 
-namespace yii\xxtea;
-
 defined('CRYPT_XXTEA_DELTA') or define('CRYPT_XXTEA_DELTA', 0x9E3779B9);
 
 /**
@@ -65,12 +63,12 @@ class Crypt_XXTEA
 	 * @access public
 	 * @param string $str  the plain text
 	 * @return string  the cipher text on success, PEAR_Error on failure
-	 * @throws XXTEAException
+	 * @throws \yii\xxtea\XXTEAException
 	 */
 	function encrypt($str)
 	{
 		if (!is_string($str)) {
-			throw new XXTEAException('The plain text must be a string.');
+			throw new \yii\xxtea\XXTEAException('The plain text must be a string.');
 		}
 		if ($str == '') {
 			return '';
@@ -143,12 +141,12 @@ class Crypt_XXTEA
 	 * @access public
 	 * @param string $str  the cipher text
 	 * @return string  the plain text on success, PEAR_Error on failure
-	 * @throws XXTEAException
+	 * @throws \yii\xxtea\XXTEAException
 	 */
 	function decrypt($str)
 	{
 		if (!is_string($str)) {
-			throw new XXTEAException('The cipher text must be a string.');
+			throw new \yii\xxtea\XXTEAException('The cipher text must be a string.');
 		}
 		if ($str == '') {
 			return '';
@@ -184,18 +182,18 @@ class Crypt_XXTEA
 	 * @access public
 	 * @param string $key  the secret key
 	 * @return bool  true on success, PEAR_Error on failure
-	 * @throws XXTEAException
+	 * @throws \yii\xxtea\XXTEAException
 	 */
 	function setKey($key)
 	{
 		if (!is_string($key)) {
-			throw new XXTEAException('The secret key must be a string.');
+			throw new \yii\xxtea\XXTEAException('The secret key must be a string.');
 		}
 		$k = $this->_str2long($key, false);
 		if (count($k) > 4) {
-			throw new XXTEAException('The secret key cannot be more than 16 characters.');
+			throw new \yii\xxtea\XXTEAException('The secret key cannot be more than 16 characters.');
 		} elseif (count($k) == 0) {
-			throw new XXTEAException('The secret key cannot be empty.');
+			throw new \yii\xxtea\XXTEAException('The secret key cannot be empty.');
 		} elseif (count($k) < 4) {
 			for ($i = count($k); $i < 4; $i++) {
 				$k[$i] = 0;
