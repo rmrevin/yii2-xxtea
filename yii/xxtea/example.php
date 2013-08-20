@@ -1,7 +1,8 @@
 <?php
 /**
  * example.php
- * @author: Revin Roman <xgismox@gmail.com>
+ * @author Revin Roman
+ * @link http://phptime.ru
  */
 
 /** @var yii\xxtea\XXTEA $XXTEA */

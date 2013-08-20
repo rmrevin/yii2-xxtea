@@ -1,7 +1,8 @@
 <?php
 /**
  * XXTEAException.php
- * @author: Revin Roman <xgismox@gmail.com>
+ * @author Revin Roman
+ * @link http://phptime.ru
  */
 
 namespace yii\xxtea;
