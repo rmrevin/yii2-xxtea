@@ -4,6 +4,7 @@
 	"keywords": ["yii2", "xxtea", "encrypt"],
 	"type": "yii2-extension",
 	"license": "BSD-3-Clause",
+	"minimum-stability": "dev",
 	"support": {
 		"issues": "https://github.com/rmrevin/yii2-xxtea/issues?state=open",
 		"wiki": "https://github.com/rmrevin/yii2-xxtea/wiki",
@@ -13,11 +14,9 @@
 		{
 			"name": "Revin Roman",
 			"email": "xgismox@gmail.com",
-			"homepage": "http://rmrevin.ru/",
-			"role": "Founder and project lead"
+			"homepage": "http://phptime.ru/"
 		}
 	],
-	"minimum-stability": "dev",
 	"require": {
 		"yiisoft/yii2": "*"
 	},
