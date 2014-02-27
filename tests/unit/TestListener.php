@@ -5,7 +5,7 @@
  * @link http://phptime.ru
  */
 
-namespace xxteatest;
+namespace rmrevin\yii\xxtea\tests\unit;
 
 class TestListener implements \PHPUnit_Framework_TestListener
 {

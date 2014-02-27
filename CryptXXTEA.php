@@ -23,7 +23,7 @@
  * MA 02110-1301 USA.
  *
  * @category   Encryption
- * @package    Crypt_XXTEA
+ * @package    CryptXXTEA
  * @author     Ma Bingyao <andot@ujn.edu.cn>
  * @author     Wudi Liu <wudicgi@yahoo.de>
  * @copyright  2005-2006 Coolcode.CN
@@ -32,13 +32,15 @@
  * @link       http://pear.php.net/package/Crypt_XXTEA
  */
 
+namespace rmrevin\yii\xxtea;
+
 defined('CRYPT_XXTEA_DELTA') or define('CRYPT_XXTEA_DELTA', 0x9E3779B9);
 
 /**
  * The main class
  *
  * @category   Encryption
- * @package    Crypt_XXTEA
+ * @package    CryptXXTEA
  * @author     Ma Bingyao <andot@ujn.edu.cn>
  * @author     Wudi Liu <wudicgi@yahoo.de>
  * @copyright  2005-2006 Coolcode.CN
@@ -46,7 +48,7 @@ defined('CRYPT_XXTEA_DELTA') or define('CRYPT_XXTEA_DELTA', 0x9E3779B9);
  * @version    Release: @package_version@
  * @link       http://pear.php.net/package/Crypt_XXTEA
  */
-class Crypt_XXTEA
+class CryptXXTEA
 {
 
 	/**
@@ -61,14 +63,14 @@ class Crypt_XXTEA
 	 * Encrypts a plain text
 	 *
 	 * @access public
-	 * @param string $str  the plain text
+	 * @param string $str the plain text
 	 * @return string  the cipher text on success, PEAR_Error on failure
-	 * @throws \yii\xxtea\XXTEAException
+	 * @throws XXTEAException
 	 */
 	function encrypt($str)
 	{
 		if (!is_string($str)) {
-			throw new \yii\xxtea\XXTEAException('The plain text must be a string.');
+			throw new XXTEAException('The plain text must be a string.');
 		}
 		if ($str == '') {
 			return '';
@@ -99,7 +101,7 @@ class Crypt_XXTEA
 	 * Fixes overflow problem
 	 *
 	 * @access private
-	 * @param int $n  the integer
+	 * @param int $n the integer
 	 * @return int  the correct integer
 	 */
 	function _int32($n)
@@ -116,8 +118,8 @@ class Crypt_XXTEA
 	 * Converts long array to string
 	 *
 	 * @access private
-	 * @param array $v  the long array
-	 * @param bool $w  whether the long array contains the length of
+	 * @param array $v the long array
+	 * @param bool $w whether the long array contains the length of
 	 *                  original plain text
 	 * @return string  the string
 	 */
@@ -139,14 +141,14 @@ class Crypt_XXTEA
 	 * Decrypts a cipher text
 	 *
 	 * @access public
-	 * @param string $str  the cipher text
+	 * @param string $str the cipher text
 	 * @return string  the plain text on success, PEAR_Error on failure
-	 * @throws \yii\xxtea\XXTEAException
+	 * @throws XXTEAException
 	 */
 	function decrypt($str)
 	{
 		if (!is_string($str)) {
-			throw new \yii\xxtea\XXTEAException('The cipher text must be a string.');
+			throw new XXTEAException('The cipher text must be a string.');
 		}
 		if ($str == '') {
 			return '';
@@ -180,20 +182,20 @@ class Crypt_XXTEA
 	 * The key must be non-empty, and less than or equal to 16 characters
 	 *
 	 * @access public
-	 * @param string $key  the secret key
+	 * @param string $key the secret key
 	 * @return bool  true on success, PEAR_Error on failure
-	 * @throws \yii\xxtea\XXTEAException
+	 * @throws XXTEAException
 	 */
 	function setKey($key)
 	{
 		if (!is_string($key)) {
-			throw new \yii\xxtea\XXTEAException('The secret key must be a string.');
+			throw new XXTEAException('The secret key must be a string.');
 		}
 		$k = $this->_str2long($key, false);
 		if (count($k) > 4) {
-			throw new \yii\xxtea\XXTEAException('The secret key cannot be more than 16 characters.');
+			throw new XXTEAException('The secret key cannot be more than 16 characters.');
 		} elseif (count($k) == 0) {
-			throw new \yii\xxtea\XXTEAException('The secret key cannot be empty.');
+			throw new XXTEAException('The secret key cannot be empty.');
 		} elseif (count($k) < 4) {
 			for ($i = count($k); $i < 4; $i++) {
 				$k[$i] = 0;
@@ -208,8 +210,8 @@ class Crypt_XXTEA
 	 * Converts string to long array
 	 *
 	 * @access private
-	 * @param string $s  the string
-	 * @param bool $w  whether to append the length of string
+	 * @param string $s the string
+	 * @param bool $w whether to append the length of string
 	 * @return string  the long array
 	 */
 	function _str2long($s, $w)

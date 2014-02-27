@@ -1,19 +1,19 @@
 <?php
 /**
- * XXTEA.php
+ * Component.php
  * @author Revin Roman
  * @link http://phptime.ru
  */
 
-namespace yii\xxtea;
+namespace rmrevin\yii\xxtea;
 
-use yii\base\Component;
+use yii\helpers\Security;
 
 /**
- * Class XXTEA
- * @package yii\xxtea
+ * Class Component
+ * @package rmrevin\yii\xxtea
  */
-class XXTEA extends Component
+class Component extends \yii\base\Component
 {
 
 	/** @var string unique secret key encryption. */
@@ -22,7 +22,7 @@ class XXTEA extends Component
 	/** @var bool receive whether to encode the hash algorithm "base64" (for data transfer). */
 	public $base64_encode = false;
 
-	/** @var \Crypt_XXTEA object */
+	/** @var CryptXXTEA object */
 	private $_crypt = null;
 
 	/**
@@ -32,21 +32,17 @@ class XXTEA extends Component
 	{
 		parent::init();
 
-		if (!class_exists('Crypt_XXTEA')) {
-			require(__DIR__ . '/Crypt_XXTEA.php');
-		}
-
 		if (empty($this->key)) {
-			throw new XXTEAException('Secret key is undefined.');
+			$this->key = Security::getSecretKey('XXTEA-secret-key', 16);
 		}
 
-		$this->_crypt = new \Crypt_XXTEA();
+		$this->_crypt = new CryptXXTEA();
 		$this->crypt()->setKey($this->key);
 	}
 
 	/**
 	 * Method returns Crypt_XXTEA object
-	 * @return \Crypt_XXTEA
+	 * @return CryptXXTEA
 	 */
 	public function crypt() { return $this->_crypt; }
 

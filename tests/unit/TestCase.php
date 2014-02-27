@@ -1,13 +1,13 @@
 <?php
 
-namespace xxteatest;
+namespace rmrevin\yii\xxtea\tests\unit;
 
 use yii\helpers\ArrayHelper;
 
 /**
  * This is the base class for all yii framework unit tests.
  */
-abstract class TestCase extends \yii\test\TestCase
+abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
 
 	public static $params;

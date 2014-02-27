@@ -5,13 +5,14 @@
  * @link http://phptime.ru
  */
 
+use rmrevin\yii\xxtea\Component;
+
 return [
 	'id' => 'testapp',
 	'basePath' => realpath(__DIR__ . '/..'),
 	'components' => [
 		'xxtea' => [
-			'class' => 'yii\xxtea\XXTEA',
-			'key' => 'XXTEA-secret-key',
+			'class' => Component::className(),
 			'base64_encode' => true
 		]
 	]

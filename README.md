@@ -7,7 +7,7 @@ In `composer.json`:
 ```
 {
     "require": {
-        "rmrevin/yii2-xxtea": "1.0.*"
+        "rmrevin/yii2-xxtea": "1.1.*"
     }
 }
 ```
@@ -22,7 +22,7 @@ return array(
 	'components' => array(
 		// ...
 		'xxtea' => array(
-			'class' => 'yii\xxtea\XXTEA',
+			'class' => 'rmrevin\yii\xxtea\Component',
 			'key' => 'qwertyuiopasdfgh', // 16 letters
 			'base64_encode' => true,
 		),

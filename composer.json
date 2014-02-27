@@ -2,7 +2,7 @@
 	"name": "rmrevin/yii2-xxtea",
 	"description": "Extension for yii2 encryption algorithm XXTEA",
 	"keywords": ["yii2", "xxtea", "encrypt"],
-	"type": "library",
+	"type": "yii2-extension",
 	"license": "BSD-3-Clause",
 	"support": {
 		"issues": "https://github.com/rmrevin/yii2-xxtea/issues?state=open",
@@ -19,12 +19,11 @@
 	],
 	"minimum-stability": "dev",
 	"require": {
-		"php": ">=5.4.0",
 		"yiisoft/yii2": "*"
 	},
 	"autoload": {
-		"psr-0": {
-			"yii\\xxtea": "./"
+		"psr-4": {
+			"rmrevin\\yii\\xxtea\\": ""
 		}
 	}
 }

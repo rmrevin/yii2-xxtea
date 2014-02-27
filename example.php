@@ -5,10 +5,9 @@
  * @link http://phptime.ru
  */
 
-/** @var yii\xxtea\XXTEA $XXTEA */
+/** @var rmrevin\yii\xxtea\Component $XXTEA */
 $XXTEA = Yii::createObject([
-	'class' => 'yii\xxtea\XXTEA',
-	'key' => \yii\helpers\Security::getSecretKey('XXTEA-secret-key'),
+	'class' => 'rmrevin\yii\xxtea\Component',
 	'base64_encode' => true
 ]);
 
