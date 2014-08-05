@@ -7,7 +7,7 @@ In `composer.json`:
 ```
 {
     "require": {
-        "rmrevin/yii2-xxtea": "1.1.*"
+        "rmrevin/yii2-xxtea": "1.2.0"
     }
 }
 ```
@@ -36,7 +36,7 @@ Usage
 ```php
 <?
 // ...
-$XXTEA = Yii::$app->getComponent('xxtea');
+$XXTEA = \Yii::$app->get('xxtea');
 
 $hash = $XXTEA->encrypt('data to encrypting');
 
