@@ -44,5 +44,5 @@ $data = $XXTEA->decrypt($hash);
 ```
 
 ![external](http://www.quetzal.ru/i/new_logo.png)
-![external_part](://www.quetzal.ru/i/new_logo.png)
+![external_part](//www.quetzal.ru/i/new_logo.png)
 ![local](i/new_logo.png)
