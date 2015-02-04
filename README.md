@@ -42,3 +42,5 @@ $hash = $XXTEA->encrypt('data to encrypting');
 
 $data = $XXTEA->decrypt($hash);
 ```
+
+![Quetzal](http://www.quetzal.ru/i/new_logo.png)
